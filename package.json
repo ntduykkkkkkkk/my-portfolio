@@ -46,6 +46,7 @@
     "graphql": "^14.4.1",
     "graphql-tag": "2.10.1",
     "isomorphic-unfetch": "^3.0.0",
+    "joi": "^17.3.0",
     "merge-graphql-schemas": "^1.7.6",
     "mongoose": "^5.10.15",
     "next": "latest",
