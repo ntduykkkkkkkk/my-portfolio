@@ -17,6 +17,7 @@ const completeConfig = {
     googleAnalyticsId: 'UA-XXXXXXX-X',
     googleSiteVerification: false,
     databaseUrl: process.env.DB_URL,
+    secretKey: process.env.SECRET_KEY,
     graphqlPath: '/api/graphql'
   },
 

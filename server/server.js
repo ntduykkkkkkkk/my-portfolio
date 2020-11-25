@@ -14,15 +14,16 @@ const requestHandler = app.getRequestHandler()
 const { config } = require('../config')
 
 // Apollo GraphQL
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer, PubSub } = require('apollo-server-express')
 const { typeDefs, resolvers } = require('../graphql/index')
 
-
+const pubsub = new PubSub()
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   introspection: true,
-  playground: true
+  playground: true,
+  context: ({ req }) => ({ req, pubsub })
 })
 apolloServer.applyMiddleware({ app: server, path: config.graphqlPath })
 

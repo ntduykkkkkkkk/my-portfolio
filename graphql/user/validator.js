@@ -14,7 +14,7 @@ const add = (data) => {
 const login = (data) => {
     const schema = Joi.object({
         email: Joi.string().required().email(),
-        password: Joi.string().alphanum().min(6).max(15).required()
+        password: Joi.string().min(6).max(15).required(),
     })
     return schema.validate(data)
 }
