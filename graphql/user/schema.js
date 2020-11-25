@@ -21,8 +21,9 @@ module.exports = `
   # Mutations
   type Mutation {
     addUser(email: String!, firstname: String, lastname: String, password: String!, passwordConfirm: String!, createdAt: String, updatedAt: String): User!
-    updateUser(email: String!, firstname: String, lastname: String, password: String): User
+    updateUser(email: String!, firstname: String, lastname: String): User
     deleteUser(email: String!): User
     login(email: String!, password: String!): User!
+    updateUserPassword(email: String!, password: String!, passwordConfirm: String!): User!
   }
 `

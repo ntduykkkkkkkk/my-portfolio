@@ -11,6 +11,15 @@ const add = (data) => {
     return schema.validate(data)
 }
 
+const changePassword = (data) => {
+    const schema = Joi.object({
+        email: Joi.string().required().email(),
+        password: Joi.string().min(6).max(15).required(),
+        passwordConfirm: Joi.ref('password')
+    })
+    return schema.validate(data)
+}
+
 const login = (data) => {
     const schema = Joi.object({
         email: Joi.string().required().email(),
@@ -21,5 +30,6 @@ const login = (data) => {
 
 module.exports = {
     add,
-    login
+    login,
+    changePassword
 }

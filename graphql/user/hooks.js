@@ -2,69 +2,70 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
 
 import {
-  GET_ARTICLES,
-  GET_ARTICLE,
-  ADD_ARTICLE,
-  UPDATE_ARTICLE,
-  DELETE_ARTICLE
+  GET_USERS,
+  GET_USER,
+  ADD_USER,
+  UPDATE_USER,
+  UPDATE_USER_PASSWORD,
+  DELETE_USER
 } from './queries'
 
-// { data, loading, error } = useGetArticles()
-export const useGetArticles = () => useQuery(GET_ARTICLES)
+// { data, loading, error } = useGetUsers()
+export const useGetUsers = () => useQuery(GET_USERS)
 
-// const { data, loading, error } = useGetArticle('slug-1')
-export const useGetArticle = (slugAndId) => useQuery(GET_ARTICLE, { variables: { slugAndId } })
+// const { data, loading, error } = useGetUser('email@example.com')
+export const useGetUser = (email) => useQuery(GET_USER, { variables: { email } })
 
-// addArticle({ variables })
-export const useAddArticle = () => {
-  const [addArticleMutation] = useMutation(ADD_ARTICLE, {
-    update: (cache, { data: { addArticle } }) => {
+// addUser({ variables })
+export const useAddUser = () => {
+  const [addUserMutation] = useMutation(ADD_USER, {
+    update: (cache, { data: { addUser } }) => {
       const { variables } = cache.watches.values().next().value
-      const { articles } = cache.readQuery({ query: GET_ARTICLES, variables })
+      const { users } = cache.readQuery({ query: GET_USERS, variables })
       cache.writeQuery({
-        query: GET_ARTICLES,
+        query: GET_USERS,
         variables,
         data: {
-          articles: [...articles, addArticle]
+          users: [...users, addUser]
         }
       })
     }
   })
-  return addArticleMutation
+  return addUserMutation
 }
 
-// updateArticle({ variables })
-export const useUpdateArticle = () => {
-  const [updateArticleMutation] = useMutation(UPDATE_ARTICLE, {
-    update: (cache, { data: { updateArticle } }) => {
+// updateUser({ variables })
+export const useUpdateUser = () => {
+  const [updateUserMutation] = useMutation(UPDATE_USER, {
+    update: (cache, { data: { updateUser } }) => {
       const { variables } = cache.watches.values().next().value
-      const { articles } = cache.readQuery({ query: GET_ARTICLES, variables })
+      const { users } = cache.readQuery({ query: GET_UserS, variables })
       cache.writeQuery({
-        query: GET_ARTICLES,
+        query: GET_USERS,
         variables,
         data: {
-          articles: articles.map(articleItem => articleItem.id !== updateArticle.id ? articleItem : updateArticle)
+          users: users.map(items => items.id !== updateUser.id ? items : updateUser)
         }
       })
     }
   })
-  return updateArticleMutation
+  return updateUserMutation
 }
 
-// deleteArticle({ variables })
-export const useDeleteArticle = () => {
-  const [deleteArticleMutation] = useMutation(DELETE_ARTICLE, {
-    update: (cache, { data: { deleteArticle } }) => {
+// deleteUser({ variables })
+export const useDeleteUser = () => {
+  const [deleteUserMutation] = useMutation(DELETE_USER, {
+    update: (cache, { data: { deleteUser } }) => {
       const { variables } = cache.watches.values().next().value
-      const { articles } = cache.readQuery({ query: GET_ARTICLES, variables })
+      const { users } = cache.readQuery({ query: GET_USERS, variables })
       cache.writeQuery({
-        query: GET_ARTICLES,
+        query: GET_USERS,
         variables,
         data: {
-          articles: articles.filter(articleItem => articleItem.id !== deleteArticle.id)
+          users: users.filter(items => items.id !== deleteUser.id)
         }
       })
     }
   })
-  return deleteArticleMutation
+  return deleteUserMutation
 }

@@ -62,7 +62,7 @@ module.exports = {
       }
     },
 
-    async updateUser (_, { firstname, lastname, email, password }, context, info) {
+    async updateUser (_, { firstname, lastname, email }, context, info) {
       const permissions = checkAuth(context)
       try {
         const user = await User.findOne({ email });
@@ -72,6 +72,27 @@ module.exports = {
         const newUser = await User.findByIdAndUpdate(user.id,{
           firstname,
           lastname,
+          updatedAt: new Date().toISOString(),
+        }, {new: true})
+        return newUser
+      } catch (error) {
+          throw new Error(error)
+      }
+    },
+
+    async updateUserPassword(_ , { email, password, passwordConfirm }, context) {
+      const permissions = checkAuth(context)
+      const { error } = validator.changePassword({ email, password, passwordConfirm })
+      if (error) {
+        throw new UserInputError(error.details[0].message)
+      }
+      try {
+        const user = await User.findOne({ email });
+        if(!user){
+          throw new UserInputError('User does not exists');
+        }
+        password = await bcrypt.hash(password, 12)
+        const newUser = await User.findByIdAndUpdate(user.id,{
           password,
           updatedAt: new Date().toISOString(),
         }, {new: true})

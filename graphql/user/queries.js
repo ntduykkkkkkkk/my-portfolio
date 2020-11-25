@@ -1,64 +1,59 @@
 // Client-side
 import gql from 'graphql-tag'
 
-const ArticleShortInfo = `
-  fragment ArticleShortInfo on Article {
-    id
-    title
-    content
-    date_published
-  }
-`
-
-export const GET_ARTICLES = gql`
-  ${ArticleShortInfo}
-
-  query GetArticles {
-    articles (sort: "title asc") {
-      ...ArticleShortInfo
+export const GET_USERS = gql`
+  query users {
+    users{
+      email
+      firstname
+      lastname
+      createdAt
+      updatedAt
     }
   }
 `
 
-// export const GET_ARTICLES_VARS = {
-//   skip: 0,
-//   first: 10
-// }
-
-export const GET_ARTICLE = gql`
-  ${ArticleShortInfo}
-
-  query GetArticle ($id: ID, $slugAndId: String) {
-    article (id: $id, slugAndId: $slugAndId) {
-      ...ArticleShortInfo
+export const GET_USER = gql`
+  query user ($email: String!) {
+    user (email: $email) {
+      email
+      firstname
+      lastname
+      createdAt
+      updatedAt
     }
   }
 `
 
-export const ADD_ARTICLE = gql`
-  ${ArticleShortInfo}
-
-  mutation AddArticle ($title: String!) {
-    addArticle (title: $title) {
-      ...ArticleShortInfo
+export const ADD_USER = gql`
+  mutation addUser ($email: String!, $password: String!, $passwordConfirm: String!, $firstname: String!, $lastname: String!) {
+    addUser (email: $email, password: $password, passwordConfirm: $passwordConfirm, firstname: $firstname, lastname: $lastname) {
+      email
+      token
     }
   }
 `
 
-export const UPDATE_ARTICLE = gql`
-  ${ArticleShortInfo}
-
-  mutation UpdateArticle ($id: ID!, $title: String) {
-    updateArticle (id: $id, title: $title) {
-      ...ArticleShortInfo
+export const UPDATE_USER = gql`
+  mutation updateUser ($email: String!, $firstname: String!, $lastname: String!) {
+    updateUser (email: $email, firstname: $firstname, lastname: $lastname) {
+      email
     }
   }
 `
 
-export const DELETE_ARTICLE = gql`
-  mutation DeleteArticle ($id: ID!) {
-    deleteArticle (id: $id) {
-      id
+export const UPDATE_USER_PASSWORD = gql`
+  mutation updateUser ($email: String!, $password: String!, $passwordConfirm: String!) {
+    updateUser (email: $email, password: $password, passwordConfirm: $passwordConfirm) {
+      email
+    }
+  }
+`
+
+export const DELETE_USER = gql`
+  mutation deleteUser (email: String!) {
+    deleteUser (email: $email) {
+      email
     }
   }
 `
